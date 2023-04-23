@@ -1,70 +1,36 @@
-# Getting Started with Create React App
+Q1. Explain what the simple List component does.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+   The List component is a React functional component that renders an unordered list (ul) of Single List Item components. Each Single List Item component represents an item in the list and contains a text property that displays the item's text. The component also receives an array of items as a prop, and when an item is clicked, it will be highlighted in green.
 
-## Available Scripts
+   1. The List component takes an array of objects named 'items' as props.
+   2. It iterates through the 'items' array and renders a new component named 'SingleListItem' for each item.
+   3. The 'SingleListItem' component receives a set of props such as 'onClickHandler' function, 'text' string, current index, and 'isSelected' boolean.
+   4. The 'onClickHandler' function handles clicking on each item and sets the 'selectedIndex' hook to the current index.
+   5. The 'isSelected' boolean changes the background color of the list item to green if true and red if false.
+   6. The List component uses hooks to keep track of the selected item index and handles user clicks through the handleClick function.
+   7. The 'WrappedSingleListItem' is a memoized functional component that displays a single item with a background color based on its selection status.
+   8. The 'WrappedListComponent' generates a list of items by using the 'WrappedSingleListItem' component.
+   9. This creates an interactive list of selectable items for users to interact with on the website.
 
-In the project directory, you can run:
+Q2. What problems / warnings are there with code?
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+   1. In order to pass a parameter in a function in the 'onClick' event, the attribute should be returned by an arrow function, like this:
+    onClick={() => onClickHandler(index)}
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+   2. The 'index' and 'isSelected' props should be required, along with the 'onClickHandler' and 'text' props, like this:
+    WrappedSingleListItem.propTypes = { index: PropTypes.number.isRequired,isSelected: PropTypes.bool.isRequired, onClickHandler:PropTypes.func.isRequired, text: PropTypes.string.isRequired, };
 
-### `npm test`
+   3. The 'setSelectedIndex' function should come after the 'selectedIndex' state variable when
+    creating the useState hook, like this:
+    const [selectedIndex, setSelectedIndex] = useState();
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   4. The 'isSelected' prop should pass a boolean value by checking if the 'selectedIndex' is equal to the 'index', like this: isSelected=    {selectedIndex === index}
 
-### `npm run build`
+   5. Each child in a list should have a unique "key" prop, like this: key={index}
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   6. The PropTypes validation for the 'items' prop should use 'arrayOf' instead of 'array' and 'shape' instead of 'shapeOf', like this:
+      WrappedListComponent.propTypes = { items: PropTypes.arrayOf(PropTypes.shape({text: PropTypes.string.isRequired, })), };
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+   7. The default props for the 'items' prop should be an empty object array instead of a null value, like this:
+      WrappedListComponent.defaultProps = { items: [{ text: 'No items' }], };
